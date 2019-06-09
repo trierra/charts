@@ -32,3 +32,7 @@ See more details [here](https://2.1.docs.portworx.com/portworx-install-with-kube
 ## **Installing the Chart using the CLI**
 
 See the installation details [here](https://2.1.docs.portworx.com/portworx-install-with-kubernetes/install-px-helm/)
+
+## **Installing Portworx on AWS**
+ 
+See the installation details [here](https://2.1.docs.portworx.com/cloud-references/auto-disk-provisioning/aws)

@@ -87,14 +87,9 @@ spec:
         name: portworx-pvc-controller
         tier: control-plane
     spec:
-     {{- if (and (.Values.openshiftInstall) (eq .Values.openshiftInstall true))}}
-      imagePullSecrets:
-        - name: {{ required "A registry secret is required for openshift installation" .Values.registrySecret }}
-     {{- else }}
       {{- if not (empty .Values.registrySecret) }}
       imagePullSecrets:
         - name: {{ .Values.registrySecret }}
-      {{- end }}    
      {{- end }}
       containers:
       - command:

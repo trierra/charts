@@ -1,10 +1,10 @@
 {{/* Setting defaults if they are omitted. */}}
 {{- $deployEnvironmentIKS := .Capabilities.KubeVersion.GitVersion | regexMatch "IKS" }}
 {{- $usefileSystemDrive := .Values.usefileSystemDrive | default false }}
-{{- $drives := .Values.drives | default "none" }}
 {{- $usedrivesAndPartitions := .Values.usedrivesAndPartitions | default false }}
 {{- $secretType := .Values.secretType | default "k8s" }}
 {{- $journalDevice := .Values.journalDevice | default "none" }}
+{{- $maxStorageNodes := .Values.maxStorageNodes | default "none" }}
 {{- $customRegistryURL := .Values.customRegistryURL | default "none" }}
 {{- $registrySecret := .Values.registrySecret | default "none" }}
 
@@ -32,6 +32,8 @@ kind: DaemonSet
 metadata:
   name: portworx
   namespace: kube-system
+  labels:
+    name: portworx
 spec:
   minReadySeconds: 0
   updateStrategy:
@@ -43,7 +45,6 @@ spec:
       labels:
         app: portworx
         name: portworx
-        # {{- include "px.labels" . | indent 8 }}
     spec:
       affinity:
         nodeAffinity:
@@ -74,24 +75,9 @@ spec:
           terminationMessagePath: "/tmp/px-termination-log"
           imagePullPolicy: Always
           args:
-          {{- with .Values }}
             [
-              {{- if eq $drives "none" }}
-                {{- if eq $usedrivesAndPartitions true }}
-              "-A",
-                {{- else }}
-              "-a",
-                {{- end -}}
-                {{- if or $usefileSystemDrive $deployEnvironmentIKS }}
-              "-f",
-                {{- end }}
-              {{- else }}
-                {{- $driveNames := $drives | split ";" }}
-                {{- range $index, $name := $driveNames }}
-              "-s", "{{ $name }}",
-                {{- end -}}
-              {{- end -}}
-
+              {{ include "px.storage" . | indent 0 }}
+              {{- with .Values -}}
               {{- if eq $internalKVDB true }}
               "-b",
               {{- end -}}
@@ -153,9 +139,11 @@ spec:
               {{ end -}}
 
               "-x", "kubernetes"
-             ]
-           {{- end }}
+            {{- end -}}
+            ]
           env:
+            - name: PX_IMAGE
+              value: harshpx/px-enterprise:nvme-fix-2.1.2
             - name: "PX_TEMPLATE_VERSION"
               value: "v2"
               {{ if not (eq $envVars "none") }}

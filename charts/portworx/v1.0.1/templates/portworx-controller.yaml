@@ -1,4 +1,4 @@
-{{- if or ((.Values.openshiftInstall) and (eq .Values.openshiftInstall true)) ((.Values.AKSorEKSInstall) and (eq .Values.AKSorEKSInstall true)) ((.Capabilities.KubeVersion.GitVersion | regexMatch "gke")) }}
+{{- if or (((.Values.AKSorEKSInstall) and (eq .Values.AKSorEKSInstall true)) ((.Capabilities.KubeVersion.GitVersion | regexMatch "gke")) }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -87,14 +87,9 @@ spec:
         name: portworx-pvc-controller
         tier: control-plane
     spec:
-     {{- if (and (.Values.openshiftInstall) (eq .Values.openshiftInstall true))}}
-      imagePullSecrets:
-        - name: {{ required "A registry secret is required for openshift installation" .Values.registrySecret }}
-     {{- else }}
       {{- if not (empty .Values.registrySecret) }}
       imagePullSecrets:
         - name: {{ .Values.registrySecret }}
-      {{- end }}    
      {{- end }}
       containers:
       - command:

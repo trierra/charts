@@ -1,10 +1,116 @@
 # Please uncomment and specify values for these options as per your requirements.
-drives: none                          # NOTE: This is a ";" seperated list of drives. For eg: "/dev/sda;/dev/sdb;/dev/sdc" Defaults to use -A switch.
-usefileSystemDrive: false             # true/false Instructs PX to use an unmounted Drive even if it has a filesystem.
-usedrivesAndPartitions: false         # Defaults to false. Change to true and PX will use unmounted drives and partitions.
-journalDevice:
 
-kvdb: "etcd:http://192.168.70.90:2379"
+result: none
+environment: none
+onpremStorage: none
+
+maxStorageNodes: none
+journalDevice: none #TODO auto
+
+usefileSystemDrive: false             # true/false Instructs PX to use an unmounted Drive even if it has a filesystem.
+usedrivesAndPartitions: true         # Use unmounted disks even if they have a partition or filesystem on it. PX will never use a drive or partition that is mounted. (useDrivesAndPartitions)
+
+provider: none
+deviceConfig: none
+
+drive_1:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: standard
+    size: 1000
+
+drive_2:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_3:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_4:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_5:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_6:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_7:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_8:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_9:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+drive_10:
+  aws:
+    type: none
+    size: none
+    iops: none
+  gc:
+    type: none
+    size: none
+
+existingDisk1: /dev/sda
+existingDisk2: /dev/sda1
+existingDisk3: /dev/sda2
+existingDisk4: none
+existingDisk5: none
+
+
+kvdb: "etcd:http://192.168.70.90:2379" #TODO: none
 internalKVDB: false                   # internal KVDB
 etcd:
   credentials: none:none              # Username and password for ETCD authentication in the form user:password
