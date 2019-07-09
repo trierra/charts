@@ -812,32 +812,30 @@ questions:
   group: "Network Parameters"
 
 ################################### Platform options ################################
-- variable: pksInstall
-  default: false
-  label: "Installing on Pivotal Container Service (PKS)"
-  description: "Select if installing on Pivotal Container service."
-  type: boolean
+- variable: platformOptions
+  type: enum
+  label: "Select if installing on one of these platforms"
   group: "Platform Parameters"
-- variable: AKSorEKSInstall
-  default: false
-  label: "Installing on AKS or EKS"
-  description: "Select if installing on Amazon Elastic Container Service for Kubernetes (EKS) or Azure Kubernetes Service (AKS)."
-  type: boolean
-  group: "Platform Parameters"
-- variable: isTargetOSCoreOS
-  default: false
-  label: "Installing on CoreOS"
-  description: "Select if installing on CoreOS"
-  type: boolean
-  group: "Platform Parameters"
+  options:
+    - "AKS"
+    - "EKS"
+    - "GKE"
 
 ################################### Registry settings options ################################
+- variable: customRegistry
+  label: "Use custom container registry?"
+  type: boolean
+  default: false
+  group: "Container Registry Parameters"
+
 - variable: registrySecret
+  show_if: "customRegistry=true"
   description: "Specify a custom Kubernetes secret that will be used to authenticate with a container registry. Must be defined in kube-system namespace. (example: regcred)"
   type: string
   label: "Registry Kubernetes Secret"
   group: "Container Registry Parameters"
 - variable: customRegistryURL
+  show_if: "customRegistry=true"
   description: "Specify a custom container registry server (including repository) that will be used instead of index.docker.io to download Docker images. (example: dockerhub.acme.net:5443 or myregistry.com/myrepository/)"
   label: "Custom Registry URL"
   type: string
