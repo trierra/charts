@@ -123,9 +123,7 @@ consul:
 dataInterface: none                   # Name of the interface <ethX>
 managementInterface: none             # Name of the interface <ethX>
 
-isTargetOSCoreOS: false                 # Is your target OS CoreOS? Defaults to false.
-pksInstall: false                       # installation on PKS (Pivotal Container Service)
-AKSorEKSInstall: false                  # installation on AKS or EKS.
+platformOptions: none                 # AKS, EKS or GKE platforms
 
 customRegistryURL:
 registrySecret:
