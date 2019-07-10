@@ -6,52 +6,90 @@ labels:
 questions:
 
 ################################### KVDB options ################################
-- variable: internalKVDB
-  description: "Select if you wish to run internal kvdb. Note internal kvdb is in beta. DO NOT enable internal kvdb when running with KOPS. The kvdb endpoints provided above will be ignored."
-  type: boolean
-  label: Enable Internal KVDB store
-  default: false
+- variable: etcdType
+  label: "Select ETCD"
+  type: enum
+  required: true
   group: "Key value store parameters (Required)"
+  options:
+    - "Use own etcd"
+    - "Built-in"
+
+# ------ "Use own etcd" ------
+- variable: ownEtcdOption
+  show_if: "etcdType=Use own etcd"
+  label: "Select one of 2 options for your ETCD cluster"
+  type: enum
+  required: true
+  group: "Key value store parameters (Required)"
+  options:
+      - "Your etcd details"
+      - "Portworx hosted (for PoCs only)"
+
+- variable: etcdAuth
+  show_if: "ownEtcdOption=Your etcd details"
+  label: "Select an auth option for your ETCD cluster"
+  type: enum
+  default: "Disable HTTPS"
+  required: true
+  group: "Key value store parameters (Required)"
+  options:
+    - "Disable HTTPS"
+    - "Certificate Auth"
+    - "Password Auth"
+
+- variable: region
+  show_if: "ownEtcdOption=Portworx hosted (for PoCs only)"
+  label: "Select region"
+  type: enum
+  required: true
+  group: "Key value store parameters (Required)"
+  options:
+    - "US region"
+    - "EU region"
+
+# kvdb endpoint
 - variable: kvdb
-  description: "Points to your key value store, such as an etcd cluster or a consul cluster. Use semicolon separated for multiple endpoints. (example: etcd:http://etcd-1.com.net:2379;etcd:http://etcd-2.com.net:2379;etcd:http://etcd-3.com.net:2379)"
+  show_if: "ownEtcdOption=Your etcd details"
+  description: "NOTE: Don't provide HTTPS endpoints if `Disable HTTPS` is selected! Points to your key value store, such as an etcd cluster or a consul cluster. Use semicolon separated for multiple endpoints. (example: etcd:http://etcd-1.com.net:2379;etcd:http://etcd-2.com.net:2379;etcd:http://etcd-3.com.net:2379)"
   type: string
   label: "Endpoint address"
   required: true
   #TODO: remove default
-  default: "etcd:http://px-etcd1.portworx.com:2379"
-  show_if: "internalKVDB=false"
+#  default: "etcd:http://px-etcd1.portworx.com:2379"
   group: "Key value store parameters (Required)"
+
 - variable: etcd.ca
+  show_if: "etcdAuth=Certificate Auth"
   description: "Name of CA file for ETCD authentication. Example: etcd-ca.crt. Follow https://docs.portworx.com/scheduler/kubernetes/etcd-certs-using-secrets.html to create a Kubernetes secret for the etcd certs."
   type: string
+  required: true
   label: "ETCD CA file"
-  group: "Key value store security Parameters"
-  show_if: "internalKVDB=false"
+  group: "Key value store security Parameters (Details in README)"
+
 - variable: etcd.cert
+  show_if: "etcdAuth=Certificate Auth"
   description: "Name of certificate for ETCD authentication. Example: etcd.crt"
   type: string
+  required: true
   label: "ETCD cert file"
-  group: "Key value store security Parameters"
-  show_if: "internalKVDB=false"
+  group: "Key value store security Parameters (Details in README)"
+
 - variable: etcd.key
+  show_if: "etcdAuth=Certificate Auth"
   description: "Name of certificate key for ETCD authentication Example: etcd.key"
   type: string
+  required: true
   label: "ETCD cert key file"
-  group: "Key value store security Parameters"
-  show_if: "internalKVDB=false"
+  group: "Key value store security Parameters (Details in README)"
+
 - variable: etcd.credentials
+  show_if: "etcdAuth=Password Auth"
   description: "Username and password for ETCD authentication in the form user:password. Not needed if using certificates."
   type: string
+  required: true
   label: "ETCD credentials"
-  group: "Key value store security Parameters"
-  show_if: "internalKVDB=false"
-- variable: consul.acl
-  description: "ACL token value used for Consul authentication. (example: 398073a8-5091-4d9c-871a-bbbeb030d1f6). Needed only for consul."
-  type: string
-  group: "Key value store security Parameters"
-  label: Consul ACL Token
-  show_if: "internalKVDB=false"
-
+  group: "Key value store security Parameters (Details in README)"
 
 ################################### Storage options ################################
 - variable: environment
@@ -59,7 +97,6 @@ questions:
   label: "Environment"
   type: enum
   required: true
-  default: "Cloud"
   group: "Storage Parameters"
   options:
     - "OnPrem"
@@ -793,15 +830,13 @@ questions:
 
 ################################### Network options ################################
 - variable: dataInterface
-  description: "Specify data network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface."
+  description: "Specify data network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface automatically."
   type: string
   label: "Data Network Interface"
-  default: auto
   group: "Network Parameters"
 - variable: managementInterface
-  description: "Specify management network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface.<Paste>"
+  description: "Specify management network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface automatically."
   type: string
-  default: auto
   label: "Management Network Interface"
   group: "Network Parameters"
 
@@ -846,7 +881,7 @@ questions:
 #  default: false
 #  required: false
 #  group: "Advanced parameters"
--
+
 - variable: storkVersion
   default: "2.1.0"
   label: "Stork version"

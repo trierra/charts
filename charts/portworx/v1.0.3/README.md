@@ -36,3 +36,40 @@ See the installation details [here](https://2.1.docs.portworx.com/portworx-insta
 ## **Installing Portworx on AWS**
  
 See the installation details [here](https://2.1.docs.portworx.com/cloud-references/auto-disk-provisioning/aws)
+
+## ** Giving your etcd certificates to Portworx using Kubernetes Secrets.**
+This is the recommended way of providing etcd certificates, as the certificates will be automatically available to the new nodes joining the cluster
+
+* Create Kubernetes secret
+* Copy all your etcd certificates and key in a directory etcd-secrets/ to create a Kubernetes secret from it. Make sure the file names are the same as you gave above.
+
+```
+# ls -1 etcd-secrets/
+etcd-ca.crt
+etcd.crt
+etcd.key
+```
+
+* Use kubectl to create the secret named px-etcd-certs from the above files:
+```
+# kubectl -n kube-system create secret generic px-etcd-certs --from-file=etcd-secrets/
+```
+
+* Notice that the secret has 3 keys etcd-ca.crt, etcd.crt and etcd.key, corresponding to file names in the etcd-secrets folder. We will use these keys in the Portworx spec file to reference the certificates.
+
+```
+# kubectl -n kube-system describe secret px-etcd-certs
+Name:         px-etcd-certs
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+etcd-ca.crt:      1679 bytes
+etcd.crt:  1680 bytes
+etcd.key:  414  bytes
+```
+Once above secret is created, proceed to the next steps.
