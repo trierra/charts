@@ -838,48 +838,27 @@ questions:
 
 
 ################################## Optional features ############################
-- variable: csi
-  description: "Select if you want to enable CSI (Container Storage Interface). CSI is still in ALPHA."
-  type: boolean
-  label: "Enable CSI"
-  default: false
-  required: false
-  group: "Advanced parameters"
-- variable: stork
-  default: true
-  label: "Install Stork"
-  description: "Storage Orchestration Runtime for Kubernetes (STORK) is a scheduler plugin that provides hyper-convergence, snapshots and storage-aware scheduling (recommended)."
-  type: boolean
-  group: "Advanced parameters"
+# TODO: Once we have a stable CSI release, we will default this to enabled
+#- variable: csi
+#  description: "Select if you want to enable CSI (Container Storage Interface). CSI is still in ALPHA."
+#  type: boolean
+#  label: "Enable CSI"
+#  default: false
+#  required: false
+#  group: "Advanced parameters"
+-
 - variable: storkVersion
   default: "2.1.0"
   label: "Stork version"
   description: "Version of Stork to be used"
   type: string
   group: "Advanced parameters"
-- variable: lighthouse
-  default: false
-  label: "Lighthouse"
-  description: "Select if you want to install Portworx Lighthouse GUI."
-  type: boolean
-  group: "Advanced parameters"
+
 - variable: lighthouseVersion
   default: "2.0.3"
   description: "Version of the Lighthouse GUI to be used"
   type: string
   label: "Lighthouse version"
-  group: "Advanced parameters"
-- variable: lighthouseSyncVersion
-  default: "0.3"
-  description: "Version of the Lighthouse sync app to be used"
-  type: string
-  label: "Lighthouse Sync version"
-  group: "Advanced parameters"
-- variable: lighthouseStorkConnectorVersion
-  default: "0.1"
-  description: "Version of the Lighthouse stork connector to be used"
-  type: string
-  label: "Lighthouse stork connector version"
   group: "Advanced parameters"
 
 - variable: envVars
@@ -887,12 +866,14 @@ questions:
   description: "semi-colon-separated list of environment variables that will be exported to portworx. (example: API_SERVER=http://lighthouse-new.portworx.com;MYENV1=val1;MYENV2=val2)"
   type: string
   group: "Advanced parameters"
+
 - variable: imageVersion
   default: "2.0.3.6"
   description: "The Portworx image version to be used while deploying"
   type: string
   label: Portworx version to be deployed.
   group: "Advanced parameters"
+
 - variable: clusterName
   description: "Name of the Portworx Cluster"
   type: string
