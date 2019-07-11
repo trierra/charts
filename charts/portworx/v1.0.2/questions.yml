@@ -27,7 +27,7 @@ questions:
       - "Portworx hosted (for PoCs only)"
 
 - variable: etcdAuth
-  show_if: "ownEtcdOption=Your etcd details"
+  show_if: "ownEtcdOption=Your etcd details&&etcdType=Use own etcd"
   label: "Select an auth option for your ETCD cluster"
   type: enum
   default: "Disable HTTPS"
@@ -55,8 +55,6 @@ questions:
   type: string
   label: "Endpoint address"
   required: true
-  #TODO: remove default
-#  default: "etcd:http://px-etcd1.portworx.com:2379"
   group: "Key value store parameters (Required)"
 
 - variable: etcd.ca
