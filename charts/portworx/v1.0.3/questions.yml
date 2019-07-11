@@ -833,10 +833,12 @@ questions:
   description: "Specify data network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface automatically."
   type: string
   label: "Data Network Interface"
+  default: auto
   group: "Network Parameters"
 - variable: managementInterface
   description: "Specify management network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface automatically."
   type: string
+  default: auto
   label: "Management Network Interface"
   group: "Network Parameters"
 

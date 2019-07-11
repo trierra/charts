@@ -110,11 +110,11 @@ spec:
                 {{- end -}}
               {{- end -}}
 
-              {{- if ne $dataInterface "none" }}
+              {{- if and (ne $dataInterface "none") (ne $dataInterface "auto")}}
               "-d", "{{ $dataInterface }}",
               {{- end -}}
 
-              {{- if ne $managementInterface "none" }}
+              {{- if and (ne $managementInterface "none") (ne $managementInterface "auto") }}
               "-m", "{{ $managementInterface }}",
               {{- end -}}
 
