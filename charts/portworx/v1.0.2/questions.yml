@@ -12,12 +12,12 @@ questions:
   required: true
   group: "Key value store parameters (Required)"
   options:
-    - "Use own etcd"
+    - "Provide your own etcd"
     - "Built-in"
 
-# ------ "Use own etcd" ------
+# ------ "Provide your own etcd" ------
 - variable: ownEtcdOption
-  show_if: "etcdType=Use own etcd"
+  show_if: "etcdType=Provide your own etcd"
   label: "Select one of 2 options for your ETCD cluster"
   type: enum
   required: true
@@ -27,7 +27,7 @@ questions:
       - "Portworx hosted (for PoCs only)"
 
 - variable: etcdAuth
-  show_if: "ownEtcdOption=Your etcd details&&etcdType=Use own etcd"
+  show_if: "ownEtcdOption=Your etcd details&&etcdType=Provide your own etcd"
   label: "Select an auth option for your ETCD cluster"
   type: enum
   default: "Disable HTTPS"
@@ -62,6 +62,7 @@ questions:
   description: "Name of CA file for ETCD authentication. Example: etcd-ca.crt. Follow https://docs.portworx.com/scheduler/kubernetes/etcd-certs-using-secrets.html to create a Kubernetes secret for the etcd certs."
   type: string
   required: true
+  default: server1.ca.crt
   label: "ETCD CA file"
   group: "Key value store security Parameters (Details in README)"
 
@@ -69,6 +70,7 @@ questions:
   show_if: "etcdAuth=Certificate Auth"
   description: "Name of certificate for ETCD authentication. Example: etcd.crt"
   type: string
+  default: server1.crt
   required: true
   label: "ETCD cert file"
   group: "Key value store security Parameters (Details in README)"
@@ -77,6 +79,7 @@ questions:
   show_if: "etcdAuth=Certificate Auth"
   description: "Name of certificate key for ETCD authentication Example: etcd.key"
   type: string
+  default: server1.key.insecure
   required: true
   label: "ETCD cert key file"
   group: "Key value store security Parameters (Details in README)"
@@ -94,6 +97,7 @@ questions:
   description: "Select your environment"
   label: "Environment"
   type: enum
+  default: "OnPrem"
   required: true
   group: "Storage Parameters"
   options:
@@ -114,6 +118,7 @@ questions:
 - variable: onpremStorage
   show_if: "environment=OnPrem"
   type: enum
+  default: "Automatically scan disks"
   label: "Select type of OnPrem storage"
   group: "Storage Parameters"
   required: true
@@ -883,14 +888,14 @@ questions:
 #  group: "Advanced parameters"
 
 - variable: storkVersion
-  default: "2.1.0"
+  default: "2.1.2"
   label: "Stork version"
   description: "Version of Stork to be used"
   type: string
   group: "Advanced parameters"
 
 - variable: lighthouseVersion
-  default: "2.0.3"
+  default: "2.0.4"
   description: "Version of the Lighthouse GUI to be used"
   type: string
   label: "Lighthouse version"
@@ -903,7 +908,7 @@ questions:
   group: "Advanced parameters"
 
 - variable: imageVersion
-  default: "2.0.3.6"
+  default: "2.0.3.7"
   description: "The Portworx image version to be used while deploying"
   type: string
   label: Portworx version to be deployed.

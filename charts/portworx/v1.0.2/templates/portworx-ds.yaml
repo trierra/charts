@@ -19,7 +19,7 @@
 {{- $csi := .Values.csi | default false }}
 
 {{- $etcdCredentials := .Values.etcd.credentials | default "none:none" }}
-{{- $etcdCertPath := .Values.etcd.certPath | default "none" }}
+{{- $etcdCertPath := .Values.etcd.ca | default "none" }}
 {{- $etcdCA := .Values.etcd.ca | default "none" }}
 {{- $etcdCert := .Values.etcd.cert | default "none" }}
 {{- $etcdKey := .Values.etcd.key | default "none" }}
@@ -123,15 +123,15 @@ spec:
               {{- end -}}
 
               {{- if ne $etcdCA "none" }}
-              "-ca", "{{ $etcdCA }}",
+              "-ca", "/etc/pwx/etcdcerts/{{ $etcdCA }}",
               {{- end -}}
 
               {{- if ne $etcdCert "none" }}
-              "-cert", "{{ $etcdCert }}",
+              "-cert", "/etc/pwx/etcdcerts/{{ $etcdCert }}",
               {{- end -}}
 
               {{- if ne $etcdKey "none" }}
-              "-key", "{{ $etcdKey }}",
+              "-key", "/etc/pwx/etcdcerts/{{ $etcdKey }}",
               {{- end -}}
 
               {{- if ne $consulToken "none" }}
@@ -302,22 +302,18 @@ spec:
       restartPolicy: Always
       serviceAccountName: px-account
       volumes:
-          {{- if not (eq $etcdCertPath "none") }}
+        {{- if ne $etcdCertPath "none" }}
         - name: etcdcerts
           secret:
             secretName: px-etcd-certs
             items:
-            - key: ca.pem
-              path: ca.pem
-            {{- if ne $etcdCert "none" }}
-            - key: client.pem
-              path: client.pem
-            {{- end -}}
-            {{- if ne $etcdKey "none" }}
-            - key: client-key.pem
-              path: client-key.key
-            {{- end -}}
-          {{- end}}
+            - key: "{{ $etcdCA }}"
+              path: "{{ $etcdCA }}"
+            - key: "{{ $etcdCert }}"
+              path: "{{ $etcdCert }}"
+            - key: "{{ $etcdKey }}"
+              path: "{{ $etcdKey }}"
+        {{- end}}
         - name: dockersock
           hostPath:
             path: {{if eq $pksInstall true}}/var/vcap/sys/run/docker/docker.sock{{else}}/var/run/docker.sock{{end}}
