@@ -148,8 +148,6 @@ spec:
             {{- end -}}
             ]
           env:
-            - name: PX_IMAGE
-              value: harshpx/px-enterprise:nvme-fix-2.1.2
             - name: "PX_TEMPLATE_VERSION"
               value: "v2"
               {{ if not (eq $envVars "none") }}
