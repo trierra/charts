@@ -3,8 +3,7 @@
 
 
 
-#kvdb: "etcd:http://px-etcd1.portworx.com:2379" #TODO: none
-kvdb: none                              #TODO: none
+kvdb: none
 ownEtcdOption: none
 etcdAuth: none
 etcdType: none                        # KVDB type
@@ -30,14 +29,14 @@ clusterName: mycluster                # This is the default. please change it to
 secretType: k8s                      # Defaults to None, but can be AWS / KVDB / Vault.
 envVars: none                         # NOTE: This is a ";" seperated list of environment variables. For eg: MYENV1=myvalue1;MYENV2=myvalue2
 stork: true                           # Use Stork https://docs.portworx.com/scheduler/kubernetes/stork.html for hyperconvergence.
-storkVersion: 2.1.2
+storkVersion: 2.2.5
 
 lighthouse: true
-lighthouseVersion: 2.0.4
-lighthouseSyncVersion: 0.3
-lighthouseStorkConnectorVersion: 0.1
+lighthouseVersion: 2.0.5
+lighthouseSyncVersion: 2.0.5
+lighthouseStorkConnectorVersion: 2.0.5
 
-deployOnMaster: false               # For POC only
+deployOnMaster: false                 # For POC only
 csi: false                            # Enable CSI
 
 serviceAccount:
@@ -45,9 +44,9 @@ serviceAccount:
     create: true
     name:
 
-deploymentType: oci                     # accepts "oci" or "docker"
-imageType: none                         #
-imageVersion: 2.0.3.3                  # Version of the PX Image.
+deploymentType: oci                   # accepts "oci" or "docker"
+imageType: none                       #
+imageVersion: 2.1.5                   # Version of the PX Image.
 
 
 result: none
@@ -55,7 +54,7 @@ environment: none
 onpremStorage: none
 
 maxStorageNodes: none
-journalDevice: none #TODO auto
+journalDevice: auto
 
 usefileSystemDrive: false             # true/false Instructs PX to use an unmounted Drive even if it has a filesystem.
 usedrivesAndPartitions: false         # Use unmounted disks even if they have a partition or filesystem on it. PX will never use a drive or partition that is mounted. (useDrivesAndPartitions)
