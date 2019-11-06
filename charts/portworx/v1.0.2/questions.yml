@@ -51,7 +51,7 @@ questions:
 # kvdb endpoint
 - variable: kvdb
   show_if: "ownEtcdOption=Your etcd details"
-  description: "NOTE: Don't provide HTTPS endpoints if `Disable HTTPS` is selected! Points to your key value store, such as an etcd cluster or a consul cluster. Use semicolon separated for multiple endpoints. (example: etcd:http://etcd-1.com.net:2379;etcd:http://etcd-2.com.net:2379;etcd:http://etcd-3.com.net:2379)"
+  description: "Enter your etcd or Consul endpoints separated by semicolons. Use the following as an example: etcd://myetc1.company.com:2379;etcd://myetc2.company.com.2379. Note: If the `etcdAuth` key is set to 'Disable HTTPS', you must provide HTTP endpoints."
   type: string
   label: "Endpoint address"
   required: true
@@ -833,13 +833,13 @@ questions:
 
 ################################### Network options ################################
 - variable: dataInterface
-  description: "Specify data network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface automatically."
+  description: "Specify your data network interface (example: `eth1`). If set to `auto`, Portworx will automatically select the first routable interface."
   type: string
   label: "Data Network Interface"
   default: auto
   group: "Network Parameters"
 - variable: managementInterface
-  description: "Specify management network interface. This is useful if your instances have non-standard network interfaces. (example: eth1). By default, Portworx will select the first routable interface automatically."
+  description: "Specify your management network interface (example: `eth1`). If set to `auto`, Portworx will automatically select the first routable interface."
   type: string
   default: auto
   label: "Management Network Interface"
@@ -848,7 +848,7 @@ questions:
 ################################### Platform options ################################
 - variable: platformOptions
   type: enum
-  label: "Select if installing on one of these platforms"
+  label: "Platform"
   group: "Platform Parameters"
   options:
     - "AKS"
@@ -857,7 +857,7 @@ questions:
 
 ################################### Registry settings options ################################
 - variable: customRegistry
-  label: "Use custom container registry?"
+  label: "Use a custom container registry?"
   type: boolean
   default: false
   group: "Container Registry Parameters"
@@ -888,34 +888,30 @@ questions:
 #  group: "Advanced parameters"
 
 - variable: storkVersion
-  default: "2.1.2"
+  default: "2.2.5"
   label: "Stork version"
-  description: "Version of Stork to be used"
   type: string
   group: "Advanced parameters"
 
 - variable: lighthouseVersion
-  default: "2.0.4"
-  description: "Version of the Lighthouse GUI to be used"
+  default: "2.0.5"
   type: string
   label: "Lighthouse version"
   group: "Advanced parameters"
 
 - variable: envVars
   label: "Environment variables"
-  description: "semi-colon-separated list of environment variables that will be exported to portworx. (example: API_SERVER=http://lighthouse-new.portworx.com;MYENV1=val1;MYENV2=val2)"
+  description: "Enter your environment variables separated by semicolons (example: API_SERVER=http://lighthouse-new.portworx.com;MYENV1=val1;MYENV2=val2). These environment variables will be exported to Portworx."
   type: string
   group: "Advanced parameters"
 
 - variable: imageVersion
-  default: "2.0.3.7"
-  description: "The Portworx image version to be used while deploying"
+  default: "2.1.5"
   type: string
   label: Portworx version to be deployed.
   group: "Advanced parameters"
 
 - variable: clusterName
-  description: "Name of the Portworx Cluster"
   type: string
   label: Portworx cluster name
   default: mycluster

@@ -2,17 +2,18 @@
 
 ## **Pre-requisites**
 
-This helm chart deploys [Portworx](https://portworx.com/) and [Stork](https://docs.portworx.com/scheduler/kubernetes/stork.html) on your Kubernetes cluster. The minimum requirements for deploying the helm chart are as follows:
+Use this Helm chart to deploy [Portworx](https://portworx.com/) and [Stork](https://docs.portworx.com/scheduler/kubernetes/stork.html) to your Kubernetes cluster.
 
-- All [Pre-requisites](https://docs.portworx.com/scheduler/kubernetes/install.html#prerequisites) for Portworx must be fulfilled.
+Prerequisites
+
+Refer to the [Install Portworx on Kubernetes via Helm](https://docs.portworx.com/portworx-install-with-kubernetes/install-px-helm/#pre-requisites) page for the list of prerequisites.
 
 ## **Limitations**
 * The portworx helm chart can only be deployed in the kube-system namespace. Hence use "kube-system" in the "Target namespace" during configuration.
-* You can only deploy one portworx helm chart per Kubernetes cluster.
 
 ## **Uninstalling the Chart**
 
-#### When uninstalling Portworx from your cluster, you have 2 options:
+#### You can uninstall Portworx using one of the following methods:
 
 #### **1. Delete all the Kubernetes components associated with the chart and the release.**
 
@@ -20,8 +21,8 @@ This helm chart deploys [Portworx](https://portworx.com/) and [Stork](https://do
 
 To perform this operation simply delete the application from the Apps page
 
-#### **2. Wipe your entire Portworx installation**
-> **Note** > Be advised, the commands used in this section are DISRUPTIVE and will lead to loss of all your data volumes. Proceed with CAUTION.
+#### **2. Wipe your Portworx installation**
+> **Note** > The commands in this section are disruptive and will lead to data loss. Please use caution..
 
 See more details [here](https://2.1.docs.portworx.com/portworx-install-with-kubernetes/install-px-helm/#uninstall)
 
