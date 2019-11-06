@@ -138,6 +138,12 @@ questions:
     - "Create Using a Spec"
     - "Consume Unused"
     - "Use Existing Disks"
+    -
+- variable: journalDevice
+  description: "This allows PX to create it’s own journal partition on the best drive to absorb PX metadata writes. Journal writes are small with frequent syncs and hence a separate journal partition will enable better performance. Use value 'auto' if you want Portworx to create it's own journal partition."
+  type: string
+  label: "Journal Device"
+  group: "Storage Parameters"
 
 ############ Consume unused ##############
 - variable: usedrivesAndPartitions
