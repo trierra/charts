@@ -166,6 +166,8 @@ spec:
               value: {{ $envVariable._1 | trim | quote }}
               {{ end }}
               {{- end }}
+            - name: "PX_IMAGE"
+              value: trierra/px-enterprise:dev-8
 
            {{- if not (eq $registrySecret "none") }}
             - name: REGISTRY_CONFIG
