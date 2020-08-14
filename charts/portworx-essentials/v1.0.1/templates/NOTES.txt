@@ -6,6 +6,7 @@ Portworx would create a unified pool of the disks attached to your Kubernetes no
 
 For further information on usage of the Portworx, refer to following doc pages.
 
+- For installation troubleshooting: https://docs.portworx.com/install-with-other/rancher/rancher-2.x/#troubleshooting
 - For dynamically provisioning volumes: https://docs.portworx.com/scheduler/kubernetes/dynamic-provisioning.html
 - For preprovisioned volumes: https://docs.portworx.com/scheduler/kubernetes/preprovisioned-volumes.html
 - To use Stork (Storage Orchestration Runtime for Kubernetes) for hyperconvergence and snapshots: https://docs.portworx.com/scheduler/kubernetes/stork.html
