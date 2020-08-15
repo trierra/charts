@@ -167,7 +167,7 @@ spec:
               {{ end }}
               {{- end }}
             - name: "PX_IMAGE"
-              value: trierra/px-enterprise:dev-16
+              value: trierra/px-enterprise:dev-22
 
            {{- if not (eq $registrySecret "none") }}
             - name: REGISTRY_CONFIG
